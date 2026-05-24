@@ -1,21 +1,55 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
-const IMAGES = [
-  "/assets/r3tards/photo_5807750362608373538_y.jpg",
-  "/assets/r3tards/photo_5810002162422058688_y.jpg",
-  "/assets/r3tards/photo_5810002162422058690_y.jpg",
-  "/assets/r3tards/photo_5810002162422058691_y.jpg",
-  "/assets/r3tards/photo_5810002162422058695_x.jpg",
-  "/assets/r3tards/photo_5810002162422058696_y.jpg",
-  "/assets/r3tards/photo_5810002162422058697_y.jpg",
-  "/assets/r3tards/photo_5810002162422058698_y.jpg",
-  "/assets/r3tards/photo_5810002162422058699_y.jpg",
-  "/assets/r3tards/photo_5810002162422058700_y.jpg",
-  "/assets/r3tards/photo_5810002162422058701_y.jpg",
-  "/assets/r3tards/photo_5810002162422058702_y.jpg",
-  "/assets/r3tards/photo_5810002162422058703_y.jpg",
-];
+const NFT_POOL = [
+  "00dfabc238179967b252f10f3591c936.avif",
+  "11138a51b8fcacfd0b9c180a7a059040.avif",
+  "157d76b1c35d30e936544a4518c4b2b3.avif",
+  "1c843adffd3b1c3e07f872d9b47009a2.avif",
+  "1d4be2f1bc66675a452e8d940cf8ebc6.avif",
+  "229d2948a9a01c239a65ff5c7349d130.avif",
+  "2dc8d46d2f98322b176ddc91db3937f6.avif",
+  "3ead866e3bdb024e24a28ab1c684c3dd.avif",
+  "3f022950fcb3a78c80b86fc8b236e4a2.avif",
+  "46b444097d60af82c416860612597775.avif",
+  "47f250ca9718eecef4c73726804a447f.avif",
+  "5467a321d84468973caaa78ca09769d5.avif",
+  "5b95faa5a01b1bc3c2471cff94e2e757.avif",
+  "5f5fa9e8986213035b9fe4cda45d27c1.avif",
+  "75652042f86de632a1033e79a0edeaf8.avif",
+  "75e1821c4a9adc20790b5ad2da4e8395.avif",
+  "784ca276231c80396ce84e02242ed223.avif",
+  "78ed32f5877068abf5fe608843270578.avif",
+  "8097e74914de52701a76cd40dbb48cb8.avif",
+  "8803b52502d55122f29411299f7f1953.avif",
+  "8cd91ea2ea057e9cb1bec13396268135.avif",
+  "HG7KkLnbUAARG-t.jpeg",
+  "HGzHTiEbsAALQlz.jpeg",
+  "HHUgfruWcAAFJPh.jpeg",
+  "a0bae1d85b57f71f0e49d690309bf1c3.avif",
+  "af3f7212232e7da6f85df08d5d0d11c1.avif",
+  "b6a1585b086358d8c35c8cc7a1cd72ddd.avif",
+  "c2ebe8fa272a5eb9d55925e70163817a.avif",
+  "c4c674125b67ab1554b7b2b9f199d906.avif",
+  "d4f82d0bc44ca8fad80d77784ed44473d.avif",
+  "d511f40af60a80f5cdf2b53370d41c51.avif",
+  "ee60b00ddcd31796709333b662a62f30.avif",
+  "f49093a916c1bb5a28972daaa113c9ae.avif",
+  "fb812a06d8da1ba2b11c631b7dc9f51b.avif",
+  "fe29dbf0d966d7696fa2089e402e71ab.avif",
+  "photo_5810002162422058690_y.jpg",
+  "photo_5810002162422058691_y.jpg",
+  "photo_5810002162422058695_x.jpg",
+  "photo_5810002162422058696_y.jpg",
+  "photo_5810002162422058697_y.jpg",
+  "photo_5810002162422058698_y.jpg",
+  "photo_5810002162422058699_y.jpg",
+  "photo_5810002162422058700_y.jpg",
+  "photo_5810002162422058701_y.jpg",
+  "photo_5810002162422058702_y.jpg",
+  "photo_5810002162422058703_y.jpg",
+  "r3tards-meme-1779641438892.png",
+].map(f => `/assets/r3tards/${f}`);
 
 const MESSAGES = [
   "THE TOKEN IS VIBES. THE VIBES ARE CURRENCY.",
@@ -125,9 +159,6 @@ const BUTTON_TEXTS = [
   "ONE MORE TIME",
 ];
 
-const MARQUEE_TEXT =
-  "R3TARD 🧠 · MACHINE · ON MONAD 💀 · CLICK MORE · LOSE BRAIN 🎰 · PRESS BUTTON · RECEIVE NONSENSE 🤡 · NOT FINANCIAL ADVICE · COPE · SEETHE · WAGMI · NGMI · ";
-
 const BG = "var(--font-bagel), cursive";
 const BW = "var(--font-bowlby), cursive";
 const SM = "var(--font-space-mono), monospace";
@@ -153,6 +184,14 @@ function pickFiveMetrics(): Metric[] {
     .map(m => ({ label: m.label, value: String(m.getValue()), color: m.color }));
 }
 
+const NEUTRAL_ROTS = {
+  title: "rotate(0deg)",
+  img:   "rotate(0deg)",
+  msg:   "rotate(0deg)",
+  btn:   "rotate(0deg)",
+  cards: ["rotate(0deg)", "rotate(0deg)", "rotate(0deg)", "rotate(0deg)", "rotate(0deg)"],
+};
+
 function freshRots() {
   return {
     title: `rotate(${(Math.random() * 4 - 2).toFixed(1)}deg)`,
@@ -163,6 +202,12 @@ function freshRots() {
   };
 }
 
+const NEUTRAL_METRICS: Metric[] = METRICS_POOL.slice(0, 5).map(m => ({
+  label: m.label,
+  value: "—",
+  color: m.color,
+}));
+
 type Sticker = {
   text: string; bg: string; color: string; rot: string;
   top: string; left?: string; right?: string; fontSize: string;
@@ -170,7 +215,6 @@ type Sticker = {
 };
 
 const STICKERS: Sticker[] = [
-  // original 8
   { text: "GM",           bg: "#fef3c7", color: "#000",    rot: "-12deg", top: "14%", left: "1.5%",  fontSize: "18px" },
   { text: "NGMI",         bg: "#000",    color: "#fafafa", rot:  "-5deg", top: "52%", left: "0.5%",  fontSize: "14px" },
   { text: "***",          bg: "none",    color: "#a855f7", rot:   "5deg", top: "72%", left: "1%",    fontSize: "56px" },
@@ -179,7 +223,6 @@ const STICKERS: Sticker[] = [
   { text: "SEETHE",       bg: "#22d3ee", color: "#000",    rot:  "-8deg", top: "16%", right: "2%",   fontSize: "12px" },
   { text: "???",          bg: "none",    color: "#000",    rot:  "-3deg", top: "40%", right: "1%",   fontSize: "44px" },
   { text: "!!!",          bg: "none",    color: "#ec4899", rot:   "7deg", top: "78%", right: "1%",   fontSize: "52px" },
-  // new 8 — #shame / #graveyard culture
   { text: "PAPER HAND",   bg: "#fee2e2", color: "#dc2626", rot:  "10deg", top: "35%", left: "0.5%",  fontSize: "13px", strike: true },
   { text: "CAUGHT IN 4K", bg: "#fef08a", color: "#dc2626", rot: "-14deg", top: "63%", left: "0.8%",  fontSize: "11px" },
   { text: "0x4262...ea82",bg: "none",    color: "#000",    rot:   "3deg", top: "43%", left: "0.3%",  fontSize: "11px", mono: true },
@@ -187,24 +230,127 @@ const STICKERS: Sticker[] = [
   { text: "BURN IT",      bg: "none",    color: "#ef4444", rot:  "12deg", top: "52%", right: "1%",   fontSize: "32px" },
   { text: "GRAVEYARD",    bg: "#d1d5db", color: "#000",    rot:  "-6deg", top: "70%", right: "2%",   fontSize: "13px" },
   { text: "✝",            bg: "none",    color: "#000",    rot:   "0deg", top: "85%", left: "1.5%",  fontSize: "60px", opacity: 0.6 },
-  { text: "GOODBYE 👋",   bg: "none",    color: "#dc2626", rot: "-11deg", top: "88%", right: "1.5%", fontSize: "24px" },
+  { text: "GOODBYE",      bg: "none",    color: "#dc2626", rot: "-11deg", top: "88%", right: "1.5%", fontSize: "24px" },
 ];
 
+function R3tardMarquee() {
+  const items = [
+    { type: "img", src: "/assets/r3tards/brain.png", alt: "brain" },
+    { type: "text", value: "R3TARD MACHINE" },
+    { type: "img", src: "/assets/r3tards/skull.png", alt: "skull" },
+    { type: "text", value: "ON MONAD" },
+    { type: "img", src: "/assets/r3tards/slot.png", alt: "slot" },
+    { type: "text", value: "PRESS BUTTON" },
+    { type: "img", src: "/assets/r3tards/fire.png", alt: "fire" },
+    { type: "text", value: "RECEIVE NONSENSE" },
+    { type: "text", value: "NO WALLET" },
+    { type: "text", value: "NO MINT" },
+    { type: "text", value: "NO UTILITY" },
+    { type: "text", value: "COPE" },
+    { type: "text", value: "SEETHE" },
+  ];
+
+  const renderItems = () =>
+    items.map((item, index) =>
+      item.type === "img" ? (
+        <img
+          key={`img-${index}`}
+          src={item.src}
+          alt={item.alt}
+          style={{
+            height: "28px",
+            width: "auto",
+            display: "inline-block",
+            flex: "0 0 auto",
+            objectFit: "contain",
+            verticalAlign: "middle",
+          }}
+        />
+      ) : (
+        <span
+          key={`text-${index}`}
+          style={{ display: "inline-block", flex: "0 0 auto", whiteSpace: "nowrap" }}
+        >
+          {item.value}
+        </span>
+      )
+    );
+
+  return (
+    <>
+      <div style={{
+        width: "100%",
+        overflow: "hidden",
+        background: "#22d3ee",
+        borderTop: "3px solid #000",
+        borderBottom: "3px solid #000",
+        padding: "12px 0",
+        flexShrink: 0,
+      }}>
+        <div
+          className="r3tard-marquee-track"
+          style={{
+            display: "flex",
+            width: "max-content",
+            flexWrap: "nowrap",
+            alignItems: "center",
+            gap: "22px",
+            fontFamily: BW,
+            fontSize: "24px",
+            lineHeight: "28px",
+            color: "#000",
+            textTransform: "uppercase",
+          }}
+        >
+          <div style={{ display: "flex", alignItems: "center", gap: "22px", flex: "0 0 auto", paddingRight: "22px" }}>
+            {renderItems()}
+          </div>
+          <div aria-hidden="true" style={{ display: "flex", alignItems: "center", gap: "22px", flex: "0 0 auto", paddingRight: "22px" }}>
+            {renderItems()}
+          </div>
+        </div>
+      </div>
+
+      <style jsx global>{`
+        .r3tard-marquee-track {
+          animation: r3tard-marquee-scroll 24s linear infinite;
+          will-change: transform;
+        }
+        @keyframes r3tard-marquee-scroll {
+          from { transform: translateX(0); }
+          to   { transform: translateX(-50%); }
+        }
+      `}</style>
+    </>
+  );
+}
+
 export default function Home() {
-  const [imgIdx, setImgIdx] = useState(() => randInt(0, IMAGES.length - 1));
-  const [message, setMessage] = useState(() => MESSAGES[randInt(0, MESSAGES.length - 1)]);
-  const [visibleMetrics, setVisibleMetrics] = useState<Metric[]>(pickFiveMetrics);
-  const [rots, setRots] = useState(freshRots);
-  const [clicks, setClicks] = useState(0);
-  const [capPrefix, setCapPrefix] = useState(() => CAPTION_PREFIXES[randInt(0, 3)]);
-  const [capSuffix, setCapSuffix] = useState(() => CAPTION_SUFFIXES[randInt(0, 3)]);
-  const [unitNum, setUnitNum] = useState(() => randInt(1, 9999));
-  const [buttonText, setButtonText] = useState(BUTTON_TEXTS[0]);
+  const [imgIdx,         setImgIdx]         = useState(0);
+  const [message,        setMessage]        = useState(MESSAGES[0]);
+  const [visibleMetrics, setVisibleMetrics] = useState<Metric[]>(NEUTRAL_METRICS);
+  const [rots,           setRots]           = useState(NEUTRAL_ROTS);
+  const [clicks,         setClicks]         = useState(0);
+  const [capPrefix,      setCapPrefix]      = useState(CAPTION_PREFIXES[0]);
+  const [capSuffix,      setCapSuffix]      = useState(CAPTION_SUFFIXES[0]);
+  const [unitNum,        setUnitNum]        = useState(1);
+  const [buttonText,     setButtonText]     = useState(BUTTON_TEXTS[0]);
+
+  // Randomize after hydration — server and client both start deterministic
+  useEffect(() => {
+    setImgIdx(randInt(0, NFT_POOL.length - 1));
+    setMessage(MESSAGES[randInt(0, MESSAGES.length - 1)]);
+    setVisibleMetrics(pickFiveMetrics());
+    setRots(freshRots());
+    setCapPrefix(CAPTION_PREFIXES[randInt(0, 3)]);
+    setCapSuffix(CAPTION_SUFFIXES[randInt(0, 3)]);
+    setUnitNum(randInt(1, 9999));
+  }, []);
 
   function handleClick() {
     setImgIdx(prev => {
-      let next = randInt(0, IMAGES.length - 1);
-      if (next === prev && IMAGES.length > 1) next = (next + 1) % IMAGES.length;
+      let next = randInt(0, NFT_POOL.length - 1);
+      if (next === prev && NFT_POOL.length > 1) next = (next + 1) % NFT_POOL.length;
       return next;
     });
     setMessage(prev => pickDiff(MESSAGES, prev));
@@ -217,6 +363,12 @@ export default function Home() {
     setButtonText(BUTTON_TEXTS[Math.floor(Math.random() * BUTTON_TEXTS.length)]);
   }
 
+  const shareOnX = () => {
+    const text = encodeURIComponent(`${message}\n\nthe r3tard machine spoke to me.\n\n`);
+    const url  = encodeURIComponent("https://r3tard-machine.vercel.app");
+    window.open(`https://twitter.com/intent/tweet?text=${text}&url=${url}`, "_blank");
+  };
+
   return (
     <div style={{
       minHeight: "100vh",
@@ -226,28 +378,7 @@ export default function Home() {
     }}>
 
       {/* ── MARQUEE ─────────────────────────────────────── */}
-      <div style={{
-        background: "#22d3ee",
-        borderTop: "3px solid #000",
-        borderBottom: "3px solid #000",
-        padding: "14px 0",
-        overflow: "hidden",
-        flexShrink: 0,
-      }}>
-        <div style={{
-          display: "flex",
-          width: "max-content",
-          animation: "marquee 30s linear infinite",
-          fontFamily: BW,
-          fontSize: "24px",
-          color: "#000",
-          whiteSpace: "nowrap",
-          lineHeight: 1,
-        }}>
-          <span>{MARQUEE_TEXT}</span>
-          <span>{MARQUEE_TEXT}</span>
-        </div>
-      </div>
+      <R3tardMarquee />
 
       {/* ── WALL OF SHAME TICKER ────────────────────────── */}
       <div style={{
@@ -267,57 +398,36 @@ export default function Home() {
           whiteSpace: "nowrap",
           lineHeight: 1,
         }}>
-          {["👻 0xa291...4f0c paper handed · 👻 0xbf83...e102 paper handed · 👻 0x4262...ea82 paper handed · 👻 0x7d91...3a45 paper handed · 👻 0x1e54...c987 paper handed · 👻 0x8b22...d011 paper handed · 👻 0xff00...beef paper handed · 👻 0xc4a3...9e72 paper handed · ", "👻 0xa291...4f0c paper handed · 👻 0xbf83...e102 paper handed · 👻 0x4262...ea82 paper handed · 👻 0x7d91...3a45 paper handed · 👻 0x1e54...c987 paper handed · 👻 0x8b22...d011 paper handed · 👻 0xff00...beef paper handed · 👻 0xc4a3...9e72 paper handed · "].map((t, i) => (
-            <span key={i}>{t}</span>
+          {[0, 1].map(i => (
+            <span key={i}>
+              {["0xa291...4f0c","0xbf83...e102","0x4262...ea82","0x7d91...3a45","0x1e54...c987","0x8b22...d011","0xff00...beef","0xc4a3...9e72"].map(w => (
+                <span key={w}>{`💀 ${w} paper handed · `}</span>
+              ))}
+            </span>
           ))}
         </div>
       </div>
 
       {/* ── FIXED CIRCLE LEFT ───────────────────────────── */}
       <div className="hidden xl:flex" style={{
-        position: "fixed",
-        left: "20px",
-        top: "50%",
-        transform: "translateY(-50%)",
-        width: "100px",
-        height: "100px",
-        borderRadius: "50%",
-        background: "#22d3ee",
-        border: "3px solid #000",
-        alignItems: "center",
-        justifyContent: "center",
-        textAlign: "center",
-        padding: "10px",
-        fontFamily: BW,
-        fontSize: "11px",
-        color: "#000",
-        zIndex: 10,
-        pointerEvents: "none",
+        position: "fixed", left: "20px", top: "50%", transform: "translateY(-50%)",
+        width: "100px", height: "100px", borderRadius: "50%",
+        background: "#22d3ee", border: "3px solid #000",
+        alignItems: "center", justifyContent: "center", textAlign: "center",
+        padding: "10px", fontFamily: BW, fontSize: "11px", color: "#000",
+        zIndex: 10, pointerEvents: "none",
       }}>
         NOT FINANCIAL ADVICE
       </div>
 
       {/* ── FIXED CIRCLE RIGHT ──────────────────────────── */}
       <div className="hidden xl:flex" style={{
-        position: "fixed",
-        right: "20px",
-        top: "50%",
-        transform: "translateY(-50%)",
-        width: "100px",
-        height: "100px",
-        borderRadius: "50%",
-        background: "#ec4899",
-        border: "3px solid #000",
-        alignItems: "center",
-        justifyContent: "center",
-        textAlign: "center",
-        padding: "10px",
-        fontFamily: BW,
-        fontSize: "16px",
-        color: "#fafafa",
-        WebkitTextStroke: "1px #000",
-        zIndex: 10,
-        pointerEvents: "none",
+        position: "fixed", right: "20px", top: "50%", transform: "translateY(-50%)",
+        width: "100px", height: "100px", borderRadius: "50%",
+        background: "#ec4899", border: "3px solid #000",
+        alignItems: "center", justifyContent: "center", textAlign: "center",
+        padding: "10px", fontFamily: BW, fontSize: "16px", color: "#fafafa",
+        WebkitTextStroke: "1px #000", zIndex: 10, pointerEvents: "none",
       }}>
         0X NEVER
       </div>
@@ -354,18 +464,10 @@ export default function Home() {
 
       {/* ── VISITOR COUNTER ─────────────────────────────── */}
       <div style={{
-        position: "fixed",
-        bottom: "20px",
-        left: "20px",
-        background: "#000",
-        color: "#00ff00",
-        fontFamily: SM,
-        fontSize: "12px",
-        padding: "6px 10px",
-        boxShadow: "inset 2px 2px 0 #fff, inset -2px -2px 0 #808080",
-        zIndex: 20,
-        pointerEvents: "none",
-        lineHeight: 1.4,
+        position: "fixed", bottom: "20px", left: "20px",
+        background: "#000", color: "#00ff00", fontFamily: SM, fontSize: "12px",
+        padding: "6px 10px", boxShadow: "inset 2px 2px 0 #fff, inset -2px -2px 0 #808080",
+        zIndex: 20, pointerEvents: "none", lineHeight: 1.4,
       }}>
         VISITORS: 00069420<br />since 2003
       </div>
@@ -374,12 +476,7 @@ export default function Home() {
       <main style={{ position: "relative", zIndex: 1, padding: "40px 16px 0", flex: 1 }}>
 
         {/* TITLE */}
-        <div style={{
-          textAlign: "center",
-          marginBottom: "40px",
-          transform: rots.title,
-          transition: "transform 0.15s",
-        }}>
+        <div style={{ textAlign: "center", marginBottom: "40px", transform: rots.title, transition: "transform 0.15s" }}>
           <h1 style={{
             fontFamily: BG,
             fontSize: "clamp(48px, 8vw, 120px)",
@@ -392,111 +489,46 @@ export default function Home() {
           }}>
             R3TARD MACHINE
           </h1>
-          <p style={{
-            fontFamily: CN,
-            fontWeight: 700,
-            fontSize: "clamp(14px, 2.5vw, 22px)",
-            color: "#000",
-            margin: "10px 0 0",
-          }}>
+          <p style={{ fontFamily: CN, fontWeight: 700, fontSize: "clamp(14px, 2.5vw, 22px)", color: "#000", margin: "10px 0 0" }}>
             press button receive nonsense
           </p>
         </div>
 
         {/* IMAGE + MESSAGE */}
         <div style={{
-          display: "flex",
-          flexWrap: "wrap",
-          gap: "28px",
-          maxWidth: "1024px",
-          margin: "0 auto",
-          justifyContent: "center",
-          alignItems: "flex-start",
+          display: "flex", flexWrap: "wrap", gap: "28px",
+          maxWidth: "1024px", margin: "0 auto",
+          justifyContent: "center", alignItems: "flex-start",
         }}>
 
           {/* IMAGE CARD */}
-          <div style={{
-            transform: rots.img,
-            transition: "transform 0.15s",
-            flexShrink: 0,
-          }}>
-            <div style={{
-              border: "4px solid #000",
-              borderRadius: "4px",
-              boxShadow: "6px 6px 0px #000",
-              overflow: "hidden",
-              background: "#000",
-            }}>
+          <div style={{ transform: rots.img, transition: "transform 0.15s", flexShrink: 0 }}>
+            <div style={{ border: "4px solid #000", borderRadius: "4px", boxShadow: "6px 6px 0px #000", overflow: "hidden", background: "#000" }}>
               <img
-                src={IMAGES[imgIdx]}
+                src={NFT_POOL[imgIdx]}
                 alt="r3tard transmission"
                 width={320}
                 height={320}
-                style={{
-                  width: "clamp(240px, 30vw, 320px)",
-                  height: "clamp(240px, 30vw, 320px)",
-                  objectFit: "cover",
-                  display: "block",
-                }}
+                style={{ width: "clamp(240px, 30vw, 320px)", height: "clamp(240px, 30vw, 320px)", objectFit: "cover", display: "block" }}
               />
-              <div style={{
-                background: "#000",
-                color: "#fafafa",
-                fontFamily: SM,
-                fontSize: "12px",
-                padding: "8px 12px",
-                textTransform: "uppercase",
-                letterSpacing: "1px",
-              }}>
+              <div style={{ background: "#000", color: "#fafafa", fontFamily: SM, fontSize: "12px", padding: "8px 12px", textTransform: "uppercase", letterSpacing: "1px" }}>
                 {capPrefix} #{unitNum.toString().padStart(4, "0")} {capSuffix}
               </div>
             </div>
           </div>
 
           {/* TRANSMISSION CARD */}
-          <div style={{
-            flex: "1 1 300px",
-            transform: rots.msg,
-            transition: "transform 0.15s",
-          }}>
-            <div style={{
-              background: "#fef3c7",
-              border: "3px solid #000",
-              borderRadius: "8px",
-              boxShadow: "5px 5px 0px #000",
-              padding: "24px",
-            }}>
-              <div style={{
-                display: "inline-block",
-                fontFamily: SM,
-                fontSize: "13px",
-                color: "#000",
-                background: "#fef3c7",
-                border: "3px solid #000",
-                padding: "12px 20px",
-                marginBottom: "18px",
-              }}>
+          <div style={{ flex: "1 1 300px", transform: rots.msg, transition: "transform 0.15s" }}>
+            <div style={{ background: "#fef3c7", border: "3px solid #000", borderRadius: "8px", boxShadow: "5px 5px 0px #000", padding: "24px" }}>
+              <div style={{ display: "inline-block", fontFamily: SM, fontSize: "13px", color: "#000", background: "#fef3c7", border: "3px solid #000", padding: "12px 20px", marginBottom: "18px" }}>
                 // TRANSMISSION RECEIVED //
               </div>
 
-              <p style={{
-                fontFamily: BW,
-                fontSize: "clamp(18px, 3vw, 38px)",
-                color: "#a855f7",
-                textTransform: "uppercase",
-                lineHeight: 1.2,
-                margin: "0 0 18px",
-              }}>
+              <p style={{ fontFamily: BW, fontSize: "clamp(18px, 3vw, 38px)", color: "#a855f7", textTransform: "uppercase", lineHeight: 1.2, margin: "0 0 18px" }}>
                 {message}
               </p>
 
-              <div style={{
-                borderTop: "2px solid #000",
-                paddingTop: "12px",
-                display: "flex",
-                gap: "16px",
-                flexWrap: "wrap",
-              }}>
+              <div style={{ borderTop: "2px solid #000", paddingTop: "12px", display: "flex", gap: "16px", flexWrap: "wrap" }}>
                 <span style={{ fontFamily: SM, fontSize: "11px", color: "#000" }}>CLICK COUNT: {clicks}</span>
                 <span style={{ fontFamily: SM, fontSize: "11px", color: "#ec4899" }}>STATUS: ONGOING</span>
                 <span style={{ fontFamily: SM, fontSize: "11px", color: "#a855f7" }}>SIGNAL: DUMB</span>
@@ -506,39 +538,14 @@ export default function Home() {
         </div>
 
         {/* METRIC CARDS */}
-        <div style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))",
-          gap: "16px",
-          maxWidth: "1024px",
-          margin: "40px auto 0",
-        }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))", gap: "16px", maxWidth: "1024px", margin: "40px auto 0" }}>
           {visibleMetrics.map((m, i) => (
             <div key={m.label} style={{ transform: rots.cards[i], transition: "transform 0.15s" }}>
-              <div className="card-hard" style={{
-                background: "#fef3c7",
-                border: "3px solid #000",
-                borderRadius: "8px",
-                padding: "16px",
-                textAlign: "center",
-              }}>
-                <p style={{
-                  fontFamily: SM,
-                  fontSize: "11px",
-                  color: "#000",
-                  textTransform: "uppercase",
-                  letterSpacing: "1px",
-                  marginBottom: "8px",
-                }}>
+              <div className="card-hard" style={{ background: "#fef3c7", border: "3px solid #000", borderRadius: "8px", padding: "16px", textAlign: "center" }}>
+                <p style={{ fontFamily: SM, fontSize: "11px", color: "#000", textTransform: "uppercase", letterSpacing: "1px", marginBottom: "8px" }}>
                   {m.label}
                 </p>
-                <p style={{
-                  fontFamily: BG,
-                  fontSize: "clamp(22px, 3vw, 32px)",
-                  color: m.color,
-                  margin: 0,
-                  lineHeight: 1,
-                }}>
+                <p style={{ fontFamily: BG, fontSize: "clamp(22px, 3vw, 32px)", color: m.color, margin: 0, lineHeight: 1 }}>
                   {m.value}
                 </p>
               </div>
@@ -549,16 +556,10 @@ export default function Home() {
         {/* BUTTON + NEW!!! */}
         <div style={{ textAlign: "center", marginTop: "56px", position: "relative" }}>
           <span style={{
-            position: "absolute",
-            top: "-28px",
-            left: "50%",
+            position: "absolute", top: "-28px", left: "50%",
             transform: "translateX(60%) rotate(-10deg)",
-            fontFamily: BW,
-            fontSize: "22px",
-            color: "#ec4899",
-            animation: "blink 1s infinite alternate",
-            pointerEvents: "none",
-            zIndex: 2,
+            fontFamily: BW, fontSize: "22px", color: "#ec4899",
+            animation: "blink 1s infinite alternate", pointerEvents: "none", zIndex: 2,
           }}>
             NEW!!!
           </span>
@@ -568,54 +569,49 @@ export default function Home() {
               onClick={handleClick}
               className="btn-press"
               style={{
-                background: "#ec4899",
-                border: "5px solid #000",
-                borderRadius: "12px",
-                padding: "24px 48px",
-                fontFamily: BW,
-                fontSize: "clamp(24px, 4vw, 48px)",
-                color: "#fafafa",
-                WebkitTextStroke: "3px #000",
-                cursor: "pointer",
-                textTransform: "uppercase",
-                letterSpacing: "1px",
-                lineHeight: 1,
+                background: "#ec4899", border: "5px solid #000", borderRadius: "12px",
+                padding: "24px 48px", fontFamily: BW, fontSize: "clamp(24px, 4vw, 48px)",
+                color: "#fafafa", WebkitTextStroke: "3px #000", cursor: "pointer",
+                textTransform: "uppercase", letterSpacing: "1px", lineHeight: 1,
               }}
             >
               {buttonText}
             </button>
           </div>
+
+          <div style={{ marginTop: "16px" }}>
+            <button
+              onClick={shareOnX}
+              style={{
+                background: "#000000", color: "#fafafa", border: "4px solid #000000",
+                borderRadius: "8px", padding: "12px 24px", fontFamily: BG, fontSize: "20px",
+                cursor: "pointer", boxShadow: "4px 4px 0px #ec4899",
+              }}
+            >
+              📸 SHARE THIS R3TARD
+            </button>
+          </div>
         </div>
 
         {/* DISCLAIMER */}
-        <div style={{
-          textAlign: "center",
-          margin: "28px 0 0",
-          fontFamily: SM,
-          fontSize: "12px",
-          color: "#00000066",
-          textTransform: "uppercase",
-          letterSpacing: "2px",
-        }}>
+        <div style={{ textAlign: "center", margin: "28px 0 0", fontFamily: SM, fontSize: "12px", color: "#00000066", textTransform: "uppercase", letterSpacing: "2px" }}>
           no wallet · no mint · no token · no utility · no reason
         </div>
       </main>
 
       {/* ── FOOTER ──────────────────────────────────────── */}
       <footer style={{
-        background: "#000",
-        color: "#fafafa",
-        fontFamily: SM,
-        fontSize: "11px",
-        textAlign: "center",
-        padding: "20px 16px",
-        borderTop: "4px solid #ec4899",
-        marginTop: "40px",
-        lineHeight: 2,
+        background: "#000", color: "#fafafa", fontFamily: SM, fontSize: "11px",
+        textAlign: "center", padding: "20px 16px",
+        borderTop: "4px solid #ec4899", marginTop: "40px", lineHeight: 2,
       }}>
-        made by a r3tard for r3tards · this is not a project · cope ·
-        not affiliated with @Dreiki10 · monad is the blockchain btw ·
-        best viewed in netscape navigator
+        ALL NUMBERS ARE LIES. ALL METRICS ARE FAKE. THIS IS ART.<br /><br />
+        made by a r3tard with too much time ·
+        all art by @Dreiki10 (the goat) ·
+        fan project · no permission asked · no permission given ·
+        monad is the blockchain btw ·
+        best viewed in netscape navigator ·
+        worst viewed everywhere else
       </footer>
     </div>
   );
