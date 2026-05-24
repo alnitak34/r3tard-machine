@@ -1,55 +1,55 @@
 "use client";
 import { useState, useEffect } from "react";
 
-const NFT_POOL = [
-  "00dfabc238179967b252f10f3591c936.avif",
-  "11138a51b8fcacfd0b9c180a7a059040.avif",
-  "157d76b1c35d30e936544a4518c4b2b3.avif",
-  "1c843adffd3b1c3e07f872d9b47009a2.avif",
-  "1d4be2f1bc66675a452e8d940cf8ebc6.avif",
-  "229d2948a9a01c239a65ff5c7349d130.avif",
-  "2dc8d46d2f98322b176ddc91db3937f6.avif",
-  "3ead866e3bdb024e24a28ab1c684c3dd.avif",
-  "3f022950fcb3a78c80b86fc8b236e4a2.avif",
-  "46b444097d60af82c416860612597775.avif",
-  "47f250ca9718eecef4c73726804a447f.avif",
-  "5467a321d84468973caaa78ca09769d5.avif",
-  "5b95faa5a01b1bc3c2471cff94e2e757.avif",
-  "5f5fa9e8986213035b9fe4cda45d27c1.avif",
-  "75652042f86de632a1033e79a0edeaf8.avif",
-  "75e1821c4a9adc20790b5ad2da4e8395.avif",
-  "784ca276231c80396ce84e02242ed223.avif",
-  "78ed32f5877068abf5fe608843270578.avif",
-  "8097e74914de52701a76cd40dbb48cb8.avif",
-  "8803b52502d55122f29411299f7f1953.avif",
-  "8cd91ea2ea057e9cb1bec13396268135.avif",
-  "HG7KkLnbUAARG-t.jpeg",
-  "HGzHTiEbsAALQlz.jpeg",
-  "HHUgfruWcAAFJPh.jpeg",
-  "a0bae1d85b57f71f0e49d690309bf1c3.avif",
-  "af3f7212232e7da6f85df08d5d0d11c1.avif",
-  "b6a1585b086358d8c35c8cc7a1cd72ddd.avif",
-  "c2ebe8fa272a5eb9d55925e70163817a.avif",
-  "c4c674125b67ab1554b7b2b9f199d906.avif",
-  "d4f82d0bc44ca8fad80d77784ed44473d.avif",
-  "d511f40af60a80f5cdf2b53370d41c51.avif",
-  "ee60b00ddcd31796709333b662a62f30.avif",
-  "f49093a916c1bb5a28972daaa113c9ae.avif",
-  "fb812a06d8da1ba2b11c631b7dc9f51b.avif",
-  "fe29dbf0d966d7696fa2089e402e71ab.avif",
-  "photo_5810002162422058690_y.jpg",
-  "photo_5810002162422058691_y.jpg",
-  "photo_5810002162422058695_x.jpg",
-  "photo_5810002162422058696_y.jpg",
-  "photo_5810002162422058697_y.jpg",
-  "photo_5810002162422058698_y.jpg",
-  "photo_5810002162422058699_y.jpg",
-  "photo_5810002162422058700_y.jpg",
-  "photo_5810002162422058701_y.jpg",
-  "photo_5810002162422058702_y.jpg",
-  "photo_5810002162422058703_y.jpg",
-  "r3tards-meme-1779641438892.png",
-].map(f => `/assets/r3tards/${f}`);
+const IMAGES = [
+  "/assets/r3tards/00dfabc238179967b252f10f3591c936.avif",
+  "/assets/r3tards/11138a51b8fcacfd0b9c180a7a059040.avif",
+  "/assets/r3tards/157d76b1c35d30e936544a4518c4b2b3.avif",
+  "/assets/r3tards/1c843adffd3b1c3e07f872d9b47009a2.avif",
+  "/assets/r3tards/1d4be2f1bc66675a452e8d940cf8ebc6.avif",
+  "/assets/r3tards/229d2948a9a01c239a65ff5c7349d130.avif",
+  "/assets/r3tards/2dc8d46d2f98322b176ddc91db3937f6.avif",
+  "/assets/r3tards/3ead866e3bdb024e24a28ab1c684c3dd.avif",
+  "/assets/r3tards/3f022950fcb3a78c80b86fc8b236e4a2.avif",
+  "/assets/r3tards/46b444097d60af82c416860612597775.avif",
+  "/assets/r3tards/47f250ca9718eecef4c73726804a447f.avif",
+  "/assets/r3tards/5467a321d84468973caaa78ca09769d5.avif",
+  "/assets/r3tards/5b95faa5a01b1bc3c2471cff94e2e757.avif",
+  "/assets/r3tards/5f5fa9e8986213035b9fe4cda45d27c1.avif",
+  "/assets/r3tards/75652042f86de632a1033e79a0edeaf8.avif",
+  "/assets/r3tards/75e1821c4a9adc20790b5ad2da4e8395.avif",
+  "/assets/r3tards/784ca276231c80396ce84e02242ed223.avif",
+  "/assets/r3tards/78ed32f5877068abf5fe608843270578.avif",
+  "/assets/r3tards/8097e74914de52701a76cd40dbb48cb8.avif",
+  "/assets/r3tards/8803b52502d55122f29411299f7f1953.avif",
+  "/assets/r3tards/8cd91ea2ea057e9cb1bec13396268135.avif",
+  "/assets/r3tards/a0bae1d85b57f71f0e49d690309bf1c3.avif",
+  "/assets/r3tards/af3f7212232e7da6f85df08d5d0d11c1.avif",
+  "/assets/r3tards/b6a1585b0863588c35c8cc7a1cd72ddd.avif",
+  "/assets/r3tards/c2ebe8fa272a5eb9d55925e70163817a.avif",
+  "/assets/r3tards/c4c674125b67ab1554b7b2b9f199d906.avif",
+  "/assets/r3tards/d4f82d0bc44ca8fad80d77784ed4473d.avif",
+  "/assets/r3tards/d511f40af60a80f5cdf2b53370d41c51.avif",
+  "/assets/r3tards/ee60b00ddcd31796709333b662a62f30.avif",
+  "/assets/r3tards/f49093a916c1bb5a28972daaa113c9ae.avif",
+  "/assets/r3tards/fb812a06d8da1ba2b11c631b7dc9f51b.avif",
+  "/assets/r3tards/fe29dbf0d966d7696fa2089e402e71ab.avif",
+  "/assets/r3tards/HG7KkLnbUAARG-t.jpeg",
+  "/assets/r3tards/HGzHTiEbsAALQlz.jpeg",
+  "/assets/r3tards/HHUgfruWcAAFJPh.jpeg",
+  "/assets/r3tards/photo_5810002162422058690_y.jpg",
+  "/assets/r3tards/photo_5810002162422058691_y.jpg",
+  "/assets/r3tards/photo_5810002162422058695_x.jpg",
+  "/assets/r3tards/photo_5810002162422058696_y.jpg",
+  "/assets/r3tards/photo_5810002162422058697_y.jpg",
+  "/assets/r3tards/photo_5810002162422058698_y.jpg",
+  "/assets/r3tards/photo_5810002162422058699_y.jpg",
+  "/assets/r3tards/photo_5810002162422058700_y.jpg",
+  "/assets/r3tards/photo_5810002162422058701_y.jpg",
+  "/assets/r3tards/photo_5810002162422058702_y.jpg",
+  "/assets/r3tards/photo_5810002162422058703_y.jpg",
+  "/assets/r3tards/r3tards-meme-1779641438892.png",
+];
 
 const MESSAGES = [
   "THE TOKEN IS VIBES. THE VIBES ARE CURRENCY.",
@@ -338,7 +338,7 @@ export default function Home() {
 
   // Randomize after hydration — server and client both start deterministic
   useEffect(() => {
-    setImgIdx(randInt(0, NFT_POOL.length - 1));
+    setImgIdx(randInt(0, IMAGES.length - 1));
     setMessage(MESSAGES[randInt(0, MESSAGES.length - 1)]);
     setVisibleMetrics(pickFiveMetrics());
     setRots(freshRots());
@@ -349,8 +349,8 @@ export default function Home() {
 
   function handleClick() {
     setImgIdx(prev => {
-      let next = randInt(0, NFT_POOL.length - 1);
-      if (next === prev && NFT_POOL.length > 1) next = (next + 1) % NFT_POOL.length;
+      let next = randInt(0, IMAGES.length - 1);
+      if (next === prev && IMAGES.length > 1) next = (next + 1) % IMAGES.length;
       return next;
     });
     setMessage(prev => pickDiff(MESSAGES, prev));
@@ -505,7 +505,7 @@ export default function Home() {
           <div style={{ transform: rots.img, transition: "transform 0.15s", flexShrink: 0 }}>
             <div style={{ border: "4px solid #000", borderRadius: "4px", boxShadow: "6px 6px 0px #000", overflow: "hidden", background: "#000" }}>
               <img
-                src={NFT_POOL[imgIdx]}
+                src={IMAGES[imgIdx]}
                 alt="r3tard transmission"
                 width={320}
                 height={320}
